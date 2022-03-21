@@ -20,14 +20,6 @@ const makeImages = galleryItems
     .join('');
   
 galleryEl.insertAdjacentHTML('beforeend', makeImages);
-galleryEl.addEventListener('click', onImageClick);
-
-function onImageClick(evt) {
-    evt.preventDefault();
-    if (evt.target.nodeName !== 'IMG') {
-        return;
-    };
-    const lightbox = new SimpleLightbox('.gallery a', { captionDelay:250});
-    lightbox.on('show.simplelightbox');
-}
+const lightbox = new SimpleLightbox('.gallery a', { captionDelay:250});
+lightbox.on('show.simplelightbox');
 

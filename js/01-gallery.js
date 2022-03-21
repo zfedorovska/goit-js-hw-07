@@ -16,6 +16,8 @@ const makeImageItemMarkup = image => {
   </div>`
 };
 
+let globalInstance = {};
+
 const makeImages = galleryItems
   .map(makeImageItemMarkup)
     .join('');
@@ -31,15 +33,26 @@ function onImageClick(evt) {
   let imageOriginal = evt.target.dataset.source;
   const instance = basicLightbox.create(`
     <img src=${imageOriginal} width="800" height="600">
-  `)
+    `,
+    {
+      closable: true,
+      onShow: (instance) => {
+        globalInstance = instance;
+        window.addEventListener('keydown', onEscapeClick);
+      },
+      onClose: (instance) => {
+        window.removeEventListener('keydown', onEscapeClick);
+      }
+    });
   instance.show();
-  document.querySelector('body').addEventListener('keydown', function(e) {
-    if (e.key === "Escape") { 
-      instance.close();
-    }
-  });
-} 
-  
+};
+
+function onEscapeClick(event) {
+  if (event.key === "Escape") {
+    globalInstance.close();
+  };
+};
+
 
 
 
